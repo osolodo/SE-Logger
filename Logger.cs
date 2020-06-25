@@ -6,7 +6,7 @@ namespace IngameScript
 {
     public class Logger
         {
-            private string tag;
+            private readonly string tag;
             private int offset = 0;
 
             public Logger(string tag)
@@ -14,22 +14,22 @@ namespace IngameScript
                 this.tag = tag;
             }
 
-            private string logEntry(Severity severity, string message)
+            private string LogEntry(Severity severity, string message)
             {
-                return LogManager.add(new LogEntry(DateTime.UtcNow, this.offset, this.tag, severity, message));
+                return LogManager.Add(new LogEntry(DateTime.UtcNow, this.offset, this.tag, severity, message));
             }
 
-            public string error(string msg)
+            public string Error(string msg)
             {
-            return logEntry(Severity.ERROR, msg);
+            return LogEntry(Severity.ERROR, msg);
             }
-            public string log(string msg)
+            public string Log(string msg)
             {
-            return logEntry(Severity.LOG, msg);
+            return LogEntry(Severity.LOG, msg);
             }
-            public string debug(string msg)
+            public string Debug(string msg)
             {
-            return logEntry(Severity.DEBUG, msg);
+            return LogEntry(Severity.DEBUG, msg);
             }
             public void IncLvl()
             {

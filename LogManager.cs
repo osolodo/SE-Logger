@@ -18,93 +18,41 @@ using VRage.Game.GUI.TextPanel;
 
 namespace IngameScript
 {
-    public static class LogManager
+    public static partial class LogManager
     {
-        private static List<LogEntry> history = new List<LogEntry>();
-        static IMyTextSurface debugLCD;
-        static Severity severity = Severity.LOG;
-        public static int offsetSpaces = 2;
-        private static string lcdTextStore;
-        private static bool prependMessages = false;
+        private static string blockNameLabel = "[Advanced Logger]";
+        private static readonly List<LogEntry> history = new List<LogEntry>();
+        private static List<OutputBlock> outputs = new List<OutputBlock>();
 
         //TODO: code to print history to lcd
-        public static string add(LogEntry logEntry)
+        public static string Add(LogEntry logEntry)
         {
             history.Add(logEntry);
-            return InnerAdd(logEntry);
+            InnerAdd(logEntry);
+            return logEntry.ToString(2);
         }
 
-        private static string InnerAdd(LogEntry logEntry)
+        private static void InnerAdd(LogEntry logEntry)
         {
-            if (debugLCD != null && logEntry.severity <= severity)
+            foreach (OutputBlock output in outputs)
             {
-                string line = logEntry.ToString(offsetSpaces);
-                if (prependMessages)
-                {
-                    lcdTextStore = line + "\n" + lcdTextStore;
-                    debugLCD.WriteText(lcdTextStore, false);
-                } else
-                {
-                    debugLCD.WriteText(line + "\n", true);
-                }
-                return line;
+                output.WriteLine(logEntry);
             }
-            return "";
         }
 
-        private static void refreshLCD()
+        public static void Refresh(Program program)
         {
-            debugLCD.ContentType = ContentType.TEXT_AND_IMAGE;
-            debugLCD.Font = "Monospace";
-
-            StringBuilder stringBuilder = new StringBuilder();
-            int i = history.Count() - 1;
-            int lines = 0;
-            List<string> lineStrings = new List<string>();
-            while (lines < 40 && i >= 0)
+            ReScan(program);
+            foreach (OutputBlock output in outputs)
             {
-                LogEntry logEntry = history[i];
-                if (logEntry.severity <= severity)
-                {
-                    lineStrings.Add(logEntry.ToString(offsetSpaces));
-                    lines++;
-                }
-                i--;
+                output.ReloadSettings(program);
+                output.ReDraw(history);
             }
-            if (!prependMessages)
-            {
-                lineStrings.Reverse();
-            }
-            foreach (string lineSting in lineStrings)
-            {
-                stringBuilder.AppendLine(lineSting);
-            }
-            lcdTextStore = stringBuilder.ToString();
-            debugLCD.WriteText(lcdTextStore, false);
         }
 
-
-        public static void setDebugPanel(IMyTextSurface _debugLCD)
+        public static void SetBlockNameLabel(string label)
         {
-            debugLCD = _debugLCD;
-            refreshLCD();
-        }
-        public static void reverseLogDirection()
-        {
-            prependMessages = !prependMessages;
-            refreshLCD();
-        }
-
-        public static void setSeverity(Severity _severity)
-        {
-            severity = _severity;
-            refreshLCD();
-        }
-
-        public static void setOffsetSpaces(int _offset)
-        {
-            offsetSpaces = _offset;
-            refreshLCD();
+            blockNameLabel = label;
         }
     }
 }

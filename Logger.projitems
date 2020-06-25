@@ -12,6 +12,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)LogEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LogManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LogManager.Scanner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OutputBlock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OutputConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Severity.cs" />
   </ItemGroup>
 </Project>

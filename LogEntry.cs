@@ -23,7 +23,7 @@ namespace IngameScript
 
         public string ToString(int offsetSpaces)
         {
-            return String.Format("[{0} {1}] {2}{3}", dateTime, severity.ToString().PadLeft(5), new String(' ', offset * offsetSpaces), message);
+            return String.Format("[{0} {1}] {2} {3}{4}", dateTime.ToShortTimeString(), severity.ToString().PadLeft(5), tag, new String(' ', offset * offsetSpaces), message);
         }
     }
 }
