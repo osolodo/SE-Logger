@@ -12,7 +12,7 @@ namespace IngameScript
         public string pattern;
         public IMyTextSurface debugLCD;
         public Severity severity = Severity.LOG;
-        public int offsetSpaces = 2;
+        public int offsetSpaces = 4;
         public string lcdTextStore;
         public bool prependMessages = false;
 

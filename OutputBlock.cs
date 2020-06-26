@@ -28,7 +28,6 @@ namespace IngameScript
 
                 if(outputConfiguration == null)
                 {
-                    Program.StaticEcho("added new output conf");
                     outputConfiguration = new OutputConfiguration(textSurfaceIndex, ((IMyTextSurfaceProvider)myTerminalBlock).GetSurface(textSurfaceIndex));
                 }
                 outputConfiguration.severity = SeverityMethods.FromString(groups[2].Value);
@@ -49,7 +48,6 @@ namespace IngameScript
                 match = match.NextMatch();
             }
             surfaces.Clear();
-            Program.StaticEcho("New outputs for "+myTerminalBlock.CustomName+": "+newSurfaces.Count);
             surfaces = newSurfaces;
         }
 
